@@ -10,10 +10,17 @@
 import {
   GraphQLSchema as Schema,
   GraphQLObjectType as ObjectType,
+  GraphQLNonNull,
+  GraphQLID,
+  GraphQLInt,
 } from 'graphql';
 
+import { mutationWithClientMutationId } from 'graphql-relay';
 import me from './queries/me';
 import news from './queries/news';
+import counter from './queries/counter';
+import Counter from './models/Counter';
+import CounterType, { CounterMutationType } from './types/CounterType';
 
 const schema = new Schema({
   query: new ObjectType({
@@ -21,8 +28,15 @@ const schema = new Schema({
     fields: {
       me,
       news,
+      counter,
     },
   }),
+  mutation: new ObjectType({
+    name: 'Mutation',
+    fields: {
+      createCounter: CounterMutationType
+    }
+  })
 });
 
 export default schema;
